@@ -1,6 +1,16 @@
 # AA222Project1_2019
 
+## Setup
+
+```
+git clone https://github.com/sisl/AA222Project1_2019.jl
+cd A222Project1_2019.jl
+julia --project "using Pkg; Pkg.resolve()"
+```
+
 ## Usage
+
+Remember to `cd` into the `AA222Project1_2019.jl` directory.
 
 ### Simple
 
