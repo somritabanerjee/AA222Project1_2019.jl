@@ -1,0 +1,10 @@
+name = "AA222Project1_2019"
+uuid = "4fa370a7-81c6-549b-8d5d-74cf3fb95c0f"
+authors = ["rejuvyesh <mail@rejuvyesh.com>"]
+version = "0.1.0"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
