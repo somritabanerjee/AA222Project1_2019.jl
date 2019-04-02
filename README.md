@@ -1,5 +1,7 @@
 # AA222Project1_2019
 
+Follow the instructions from the Julia [website](https://julialang.org/downloads/) to install Julia for your platform.
+
 ## Setup
 
 ```
