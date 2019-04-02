@@ -5,7 +5,7 @@
 ```
 git clone https://github.com/sisl/AA222Project1_2019.jl
 cd A222Project1_2019.jl
-julia --project "using Pkg; Pkg.resolve()"
+julia --project -e "using Pkg; Pkg.resolve()"
 ```
 
 ## Usage
