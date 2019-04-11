@@ -1,18 +1,5 @@
 using Random
-# using Plots
-# pyplot(size = (900,900), legend = true)
 
-
-# function rosenbrock(x::Vector)
-#     return (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
-# end
-
-# function rosenbrock_gradient(x::Vector)
-#     storage = zeros(2)
-#     storage[1] = -2.0 * (1.0 - x[1]) - 400.0 * (x[2] - x[1]^2) * x[1]
-#     storage[2] = 200.0 * (x[2] - x[1]^2)
-#     return storage
-# end
 """
 
 Arguments:
@@ -26,9 +13,11 @@ function optimize(f, g, x0, n, prob)
     if prob in ["simple_1","simple_2","simple_3"]
         optimizeHookeJeeves(f, g, x0, n, prob)
     elseif prob in ["secret_1"]
-        optimizeNesterov(f, g, x0, n, prob, 0.001, 0.9)
+        optimizeFibonacci(f, g, x0, n, prob, 100)
+        # optimizeNesterov(f, g, x0, n, prob, 0.001, 0.9)
     elseif prob in ["secret_2"]
-        optimizeAdagrad(f, g, x0, n, prob, 0.01, 1.0e-8)
+        optimizeFibonacci(f, g, x0, n, prob, 50)
+        # optimizeAdagrad(f, g, x0, n, prob, 0.01, 1.0e-8)
     end
 end
 
@@ -40,9 +29,7 @@ function optimizeAdagrad(f, g, x0, n, prob, α, ε)
     while evalsLeft >=2
         x_best = stepAda(M, f, g, x_best)
         evalsLeft = evalsLeft - 2
-        # print(x_best)
     end
-    # scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
     return x_best
 end
 
@@ -71,9 +58,7 @@ function optimizeNesterov(f, g, x0, n, prob, α, β)
     while evalsLeft >=2
         x_best = stepNesterov(M, f, g, x_best)
         evalsLeft = evalsLeft - 2
-        # print(x_best)
     end
-    # scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
     return x_best
 end
 
@@ -96,7 +81,6 @@ end
 function optimizeHookeJeeves(f, g, x0, n, prob)
     α = 1;
     x_best = hooke_jeeves(f, x0, α, n)
-    # scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
     return x_best
 end
 
@@ -104,7 +88,6 @@ basis(i, n) = [k == i ? 1.0 : 0.0 for k in 1 : n]
 
 function hooke_jeeves(f, x, α, maxEval, γ=0.5)
     y, n = f(x), length(x)
-    # scatter!([x[1]],[x[2]],markercolor = :blue,label="")
     evalsLeft = maxEval - 1
     while evalsLeft > 0
         improved = false
@@ -114,7 +97,6 @@ function hooke_jeeves(f, x, α, maxEval, γ=0.5)
                 return x 
             end
             y′ = f(x′)
-            # scatter!([x′[1]],[x′[2]],markercolor = :blue,label="")
             evalsLeft = evalsLeft - 1
             if y′ < y
                 x, y, improved = x′, y′, true
@@ -124,7 +106,6 @@ function hooke_jeeves(f, x, α, maxEval, γ=0.5)
                     return x 
                 end
                 y′ = f(x′)
-                # scatter!([x′[1]],[x′[2]],markercolor = :blue,label="")
                 evalsLeft = evalsLeft - 1
                 if y′ < y
                     x, y, improved = x′, y′, true
@@ -153,10 +134,9 @@ function optimizeRandom(f, g, x0, n, prob)
     return x_best
 end
 
-function optimizeFibonacci(f, g, x0, n, prob)
-    a,b = fibonacci_search(f, [-3,-3], [3,3], n)
+function optimizeFibonacci(f, g, x0, n, prob, bracket)
+    a,b = fibonacci_search(f, -bracket*ones(length(x0)), bracket*ones(length(x0)), n)
     x_best = (a+b)/2
-    scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
     return x_best
 end
 
@@ -166,7 +146,6 @@ function fibonacci_search(f, a, b, n; ε=0.01)
     ρ = 1 / (φ*(1-s^(n+1))/(1-s^n))
     d = ρ*b + (1 - ρ)*a
     yd = f(d)
-    scatter!([d[1]],[d[2]],markercolor = :blue,label="")
     for i in 1 : n - 1
         if i == n - 1
             c = ε*a + (1-ε)*d
@@ -174,7 +153,6 @@ function fibonacci_search(f, a, b, n; ε=0.01)
             c = ρ*a + (1 - ρ)*b
         end
         yc = f(c)
-        scatter!([c[1]],[c[2]],markercolor = :blue,label="")
         if yc < yd
             b, d, yd = d, c, yc
         else
@@ -185,15 +163,15 @@ function fibonacci_search(f, a, b, n; ε=0.01)
     return a < b ? (a, b) : (b, a)
 end
 
-# X = range(-5, length=100, stop=5)
-# Y = range(-5, length=100, stop=5)
-# Z = zeros(length(X),length(Y))
-# for i in 1:length(X)
-#     for j in 1:length(Y)
-#         Z[i,j]=rosenbrock([X[j],Y[i]])
-#     end
+# function rosenbrock(x::Vector)
+#     return (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
 # end
-# contour(X,Y,Z, levels= 50)
-# scatter!([1],[1],markercolor=:green,markersize=7,label="true minimum")
+
+# function rosenbrock_gradient(x::Vector)
+#     storage = zeros(2)
+#     storage[1] = -2.0 * (1.0 - x[1]) - 400.0 * (x[2] - x[1]^2) * x[1]
+#     storage[2] = 200.0 * (x[2] - x[1]^2)
+#     return storage
+# end
+
 # optimize(rosenbrock,rosenbrock_gradient,[2,2],20,"simple_1")
-# gui()

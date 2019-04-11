@@ -116,3 +116,132 @@ Avg Score: -2618.699184116569
 
 
 Using Nesterov momentum for the secret and hooke jeeves for normal
+Submission results:
+===================
+Mode: simple
+Problem: 1
+-------------------
+Max Num Function (and Gradient) Evals: 20
+Avg Score: -0.8075174308575663
+===================
+[ Info: Including Julia file
+===================
+Mode: simple
+Problem: 2
+-------------------
+Max Num Function (and Gradient) Evals: 40
+Avg Score: -0.012355040467335229
+===================
+[ Info: Including Julia file
+===================
+Mode: simple
+Problem: 3
+-------------------
+Max Num Function (and Gradient) Evals: 100
+Avg Score: -0.0971886163855889
+===================
+[ Info: Including Julia file
+===================
+Mode: secret
+Problem: 1
+-------------------
+Max Num Function (and Gradient) Evals: 120
+Avg Score: -0.8149735208211647
+===================
+[ Info: Including Julia file
+===================
+Mode: secret
+Problem: 2
+-------------------
+Max Num Function (and Gradient) Evals: 40
+Avg Score: NaN
+===================
+No README.pdf found.
+
+
+
+Using Nesterov momentum for the secret1, Adagrad for secret2, and hooke jeeves for normal
+===================
+Mode: simple
+Problem: 1
+-------------------
+Max Num Function (and Gradient) Evals: 20
+Avg Score: -0.8075174308575663
+===================
+[ Info: Including Julia file
+===================
+Mode: simple
+Problem: 2
+-------------------
+Max Num Function (and Gradient) Evals: 40
+Avg Score: -0.012355040467335229
+===================
+[ Info: Including Julia file
+===================
+Mode: simple
+Problem: 3
+-------------------
+Max Num Function (and Gradient) Evals: 100
+Avg Score: -0.0971886163855889
+===================
+[ Info: Including Julia file
+===================
+Mode: secret
+Problem: 1
+-------------------
+Max Num Function (and Gradient) Evals: 120
+Avg Score: -0.8149735208211647
+===================
+[ Info: Including Julia file
+===================
+Mode: secret
+Problem: 2
+-------------------
+Max Num Function (and Gradient) Evals: 40
+Avg Score: -3199.583946438195
+===================
+No README.pdf found.
+
+
+simples- hooke jeeves. secret1- nesterov. secret2- fibonacci (100)
+===================
+Mode: simple
+Problem: 1
+-------------------
+Max Num Function (and Gradient) Evals: 20
+Avg Score: -0.8075174308575663
+===================
+[ Info: Including Julia file
+===================
+Mode: simple
+Problem: 2
+-------------------
+Max Num Function (and Gradient) Evals: 40
+Avg Score: -0.012355040467335229
+===================
+[ Info: Including Julia file
+===================
+Mode: simple
+Problem: 3
+-------------------
+Max Num Function (and Gradient) Evals: 100
+Avg Score: -0.0971886163855889
+===================
+[ Info: Including Julia file
+===================
+Mode: secret
+Problem: 1
+-------------------
+Max Num Function (and Gradient) Evals: 120
+Avg Score: -0.8149735208211647
+===================
+[ Info: Including Julia file
+===================
+Mode: secret
+Problem: 2
+-------------------
+Max Num Function (and Gradient) Evals: 40
+Avg Score: 97.99224188386368
+===================
+
+simples- hooke jeeves. secret1- fibonacci(100). secret2- fibonacci (50)
