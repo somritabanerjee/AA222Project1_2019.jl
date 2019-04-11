@@ -4,11 +4,14 @@ using Random
 
 
 # function rosenbrock(x::Vector)
-#     return (1.0 - x[1])^2 + 5.0 * (x[2] - x[1]^2)^2
+#     return (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
 # end
 
-# function g(x)
-#         return
+# function rosenbrock_gradient(x::Vector)
+#     storage = zeros(2)
+#     storage[1] = -2.0 * (1.0 - x[1]) - 400.0 * (x[2] - x[1]^2) * x[1]
+#     storage[2] = 200.0 * (x[2] - x[1]^2)
+#     return storage
 # end
 """
 
@@ -20,6 +23,77 @@ Arguments:
     - `prob`: (String) Name of the problem. So you can use a different strategy for each problem
 """
 function optimize(f, g, x0, n, prob)
+    if prob in ["simple_1","simple_2","simple_3"]
+        optimizeHookeJeeves(f, g, x0, n, prob)
+    elseif prob in ["secret_1"]
+        optimizeNesterov(f, g, x0, n, prob, 0.001, 0.9)
+    elseif prob in ["secret_2"]
+        optimizeAdagrad(f, g, x0, n, prob, 0.01, 1.0e-8)
+    end
+end
+
+function optimizeAdagrad(f, g, x0, n, prob, α, ε)
+    M = Adagrad(α, ε, zeros(length(x0)))
+    M = initAda!(M, f, g, x0)
+    evalsLeft = n
+    x_best = x0
+    while evalsLeft >=2
+        x_best = stepAda(M, f, g, x_best)
+        evalsLeft = evalsLeft - 2
+        # print(x_best)
+    end
+    # scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
+    return x_best
+end
+
+abstract type DescentMethod end
+
+mutable struct Adagrad <: DescentMethod
+    α # learning rate
+    ε # small value
+    s # sum of square gradient
+end
+function initAda!(M::Adagrad, f, ∇f, x)
+    M.s = zeros(length(x))
+    return M
+end
+function stepAda(M::Adagrad, f, ∇f, x)
+    α, ε, s, g = M.α, M.ε, M.s, ∇f(x)
+    s[:] += g.*g
+    return x - α*g ./ (sqrt.(s) .+ ε)
+end
+
+function optimizeNesterov(f, g, x0, n, prob, α, β)
+    M = NesterovMomentum(α, β, zeros(length(x0)))
+    M = initNesterov!(M, f, g, x0)
+    evalsLeft = n
+    x_best = x0
+    while evalsLeft >=2
+        x_best = stepNesterov(M, f, g, x_best)
+        evalsLeft = evalsLeft - 2
+        # print(x_best)
+    end
+    # scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
+    return x_best
+end
+
+mutable struct NesterovMomentum <: DescentMethod
+    α # learning rate
+    β # momentum decay
+    v # momentum
+end
+function initNesterov!(M::NesterovMomentum, f, ∇f, x)
+    M.v = zeros(length(x))
+    return M
+end
+function stepNesterov(M::NesterovMomentum, f, ∇f, x)
+    α, β, v = M.α, M.β, M.v
+    v[:] = β*v - α*∇f(x + β*v)
+    return x + v
+end
+
+
+function optimizeHookeJeeves(f, g, x0, n, prob)
     α = 1;
     x_best = hooke_jeeves(f, x0, α, n)
     # scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
@@ -121,5 +195,5 @@ end
 # end
 # contour(X,Y,Z, levels= 50)
 # scatter!([1],[1],markercolor=:green,markersize=7,label="true minimum")
-# optimize(rosenbrock,g,[0.5,1],20,0)
+# optimize(rosenbrock,rosenbrock_gradient,[2,2],20,"simple_1")
 # gui()
