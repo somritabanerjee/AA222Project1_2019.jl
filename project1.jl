@@ -41,8 +41,8 @@ function optimize(f, g, x0, n, prob)
     # x_best = x0
     # y_best = f(x0)
     a,b = fibonacci_search(f, [-3,-3], [3,3], n)
-    print(a)
-    print(b)
+    # print(a)
+    # print(b)
     x_best = (a+b)/2
     # y_best = f(x_best)
     # for i in 1 : n-1
