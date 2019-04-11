@@ -1,6 +1,4 @@
 using Random
-# include("src/AA222Project1_2019.jl")
-# include("src/simple.jl")
 using Plots
 pyplot(size = (900,900), legend = true)
 
@@ -33,28 +31,13 @@ function optimizeRandom(f, g, x0, n, prob)
         end
     end
     scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
-    # scatter!([0],[0],markercolor=:green)
     return x_best
 end
 
 function optimize(f, g, x0, n, prob)
-    # x_best = x0
-    # y_best = f(x0)
     a,b = fibonacci_search(f, [-3,-3], [3,3], n)
-    # print(a)
-    # print(b)
     x_best = (a+b)/2
-    # y_best = f(x_best)
-    # for i in 1 : n-1
-    #     x_next = x_best + randn(length(x_best))
-    #     scatter!([x_next[1]],[x_next[2]],markercolor = :blue)
-    #     y_next = f(x_next)
-    #     if y_next < y_best
-    #         x_best, y_best = x_next, y_next
-    #     end
-    # end
     scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
-    # scatter!([0],[0],markercolor=:green)
     return x_best
 end
 
@@ -91,11 +74,7 @@ for i in 1:length(X)
         Z[i,j]=rosenbrock([X[j],Y[i]])
     end
 end
-# plot(X,Y,Z, st = :contourf)
 contour(X,Y,Z, levels= 50)
-# plot(X,Y)
-# plot!(1:2,3:4,markercolor=:red,markersize=20)
 scatter!([1],[1],markercolor=:green,markersize=7,label="true minimum")
 optimize(rosenbrock,g,[0.5,1],10,0)
 gui()
-# x = 1:10; y = rand(10); plot(x,y)
