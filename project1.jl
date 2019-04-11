@@ -1,15 +1,15 @@
 using Random
-using Plots
-pyplot(size = (900,900), legend = true)
+# using Plots
+# pyplot(size = (900,900), legend = true)
 
 
-function rosenbrock(x::Vector)
-    return (1.0 - x[1])^2 + 5.0 * (x[2] - x[1]^2)^2
-end
+# function rosenbrock(x::Vector)
+#     return (1.0 - x[1])^2 + 5.0 * (x[2] - x[1]^2)^2
+# end
 
-function g(x)
-        return
-end
+# function g(x)
+#         return
+# end
 """
 
 Arguments:
@@ -19,6 +19,51 @@ Arguments:
     - `n`: (Int) Number of evaluations allowed. Remember `g` costs twice of `f`
     - `prob`: (String) Name of the problem. So you can use a different strategy for each problem
 """
+function optimize(f, g, x0, n, prob)
+    α = 1;
+    x_best = hooke_jeeves(f, x0, α, n)
+    # scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
+    return x_best
+end
+
+basis(i, n) = [k == i ? 1.0 : 0.0 for k in 1 : n]
+
+function hooke_jeeves(f, x, α, maxEval, γ=0.5)
+    y, n = f(x), length(x)
+    # scatter!([x[1]],[x[2]],markercolor = :blue,label="")
+    evalsLeft = maxEval - 1
+    while evalsLeft > 0
+        improved = false
+        for i in 1 : n
+            x′ = x + α*basis(i, n)
+            if evalsLeft <= 0
+                return x 
+            end
+            y′ = f(x′)
+            # scatter!([x′[1]],[x′[2]],markercolor = :blue,label="")
+            evalsLeft = evalsLeft - 1
+            if y′ < y
+                x, y, improved = x′, y′, true
+            else
+                x′ = x - α*basis(i, n)
+                if evalsLeft <= 0
+                    return x 
+                end
+                y′ = f(x′)
+                # scatter!([x′[1]],[x′[2]],markercolor = :blue,label="")
+                evalsLeft = evalsLeft - 1
+                if y′ < y
+                    x, y, improved = x′, y′, true
+                end
+            end
+        end
+        if !improved
+            α *= γ
+        end
+    end
+    return x
+end
+
 function optimizeRandom(f, g, x0, n, prob)
     x_best = x0
     y_best = f(x0)
@@ -34,7 +79,7 @@ function optimizeRandom(f, g, x0, n, prob)
     return x_best
 end
 
-function optimize(f, g, x0, n, prob)
+function optimizeFibonacci(f, g, x0, n, prob)
     a,b = fibonacci_search(f, [-3,-3], [3,3], n)
     x_best = (a+b)/2
     scatter!([x_best[1]],[x_best[2]],markercolor = :red, label="best found")
@@ -66,15 +111,15 @@ function fibonacci_search(f, a, b, n; ε=0.01)
     return a < b ? (a, b) : (b, a)
 end
 
-X = range(-5, length=100, stop=5)
-Y = range(-5, length=100, stop=5)
-Z = zeros(length(X),length(Y))
-for i in 1:length(X)
-    for j in 1:length(Y)
-        Z[i,j]=rosenbrock([X[j],Y[i]])
-    end
-end
-contour(X,Y,Z, levels= 50)
-scatter!([1],[1],markercolor=:green,markersize=7,label="true minimum")
-optimize(rosenbrock,g,[0.5,1],10,0)
-gui()
+# X = range(-5, length=100, stop=5)
+# Y = range(-5, length=100, stop=5)
+# Z = zeros(length(X),length(Y))
+# for i in 1:length(X)
+#     for j in 1:length(Y)
+#         Z[i,j]=rosenbrock([X[j],Y[i]])
+#     end
+# end
+# contour(X,Y,Z, levels= 50)
+# scatter!([1],[1],markercolor=:green,markersize=7,label="true minimum")
+# optimize(rosenbrock,g,[0.5,1],20,0)
+# gui()

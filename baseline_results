@@ -31,10 +31,43 @@ Avg Score: -5.810676930277424
 
 
 use Fibonacci search on problem 1 
+worksForSimple1.jl
 ===================
 Mode: simple
 Problem: 1
 -------------------
 Max Num Function (and Gradient) Evals: 20
 Avg Score: -0.9898972751665448
+===================
+===================
+Mode: simple
+Problem: 2
+-------------------
+Max Num Function (and Gradient) Evals: 40
+Avg Score: -8.000000000000036
+===================
+BoundsError for problem 3
+
+
+Using Hooke-Jeeves 
+===================
+Mode: simple
+Problem: 1
+-------------------
+Max Num Function (and Gradient) Evals: 20
+Avg Score: -1.4068369021185732
+===================
+===================
+Mode: simple
+Problem: 2
+-------------------
+Max Num Function (and Gradient) Evals: 40
+Avg Score: -0.017228446691668127
+===================
+===================
+Mode: simple
+Problem: 3
+-------------------
+Max Num Function (and Gradient) Evals: 100
+Avg Score: -0.06593333412283853
 ===================
